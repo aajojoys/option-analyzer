@@ -1,0 +1,4 @@
+.python-version
+Pipfile*
+db.sqlite3
+.env
