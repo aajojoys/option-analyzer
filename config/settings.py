@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # third party app
     'asset_info',
+    'data_collection',
 ]
 
 MIDDLEWARE = [
