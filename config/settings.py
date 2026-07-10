@@ -12,12 +12,18 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 from environs import Env
+from pymongo import MongoClient
 
 # Import environment variables
 env = Env()
 env.read_env()
 
 DJANGO_SECRETKEY = env.str("DJANGO_SECRETKEY")
+MONGOD_SECRETKEY = env.str("MONGOD_SECRETKEY")
+MONGOD_USERNAME = env.str("MONGOD_USERNAME")
+
+MONGOD_URI = f"mongodb://{MONGOD_USERNAME}:{MONGOD_SECRETKEY}@localhost:27017/"
+MONGOD_CLIENT = MongoClient(MONGOD_URI)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,7 +38,7 @@ SECRET_KEY = DJANGO_SECRETKEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost"]
 
 
 # Application definition
@@ -44,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # third party app
 ]
 
 MIDDLEWARE = [
