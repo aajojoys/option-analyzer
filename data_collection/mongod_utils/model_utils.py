@@ -170,7 +170,6 @@ def get_activity_res_helper(AM_instance, activity_interval, start_ts, end_ts, sy
         end_ts = None
     if not end_ts:
         kwargs = dict(start_ts=ts_convert_s_and_ms(start_ts, TIMESTAMP_UNIT_S), end_ts=None, symbol=symbol, contract_symbol=contract_symbol, ignore_listfields=ignore_listfields, include_listfields=include_listfields)
-        print(kwargs)
         return AM_instance.find(**kwargs)
     else:
         res = []
@@ -259,3 +258,9 @@ def mongod_get_option_res(db_name, activity_interval, start_ts, end_ts=None, sym
     """
     kwargs = dict(db_name=db_name, activityinfo_name=ACTIVITYINFONAME_OPTION, activity_interval=activity_interval, start_ts=start_ts, end_ts=end_ts, symbol=symbol, contract_symbol=contract_symbol, ignore_listfields=ignore_listfields, include_listfields=include_listfields)
     return mongod_get_activity_res(**kwargs)
+
+def mongod_get_option_minmax_field(db_name, field_name):
+    dictfield = dict(db_name=db_name, activityinfo_name=ACTIVITYINFONAME_OPTION, collection=COL_OPTION_MASTER_1H, field_name=field_name)
+    min_ts, AM = get_activity_collection_val(**dictfield, field_value_func=get_activity_min_field_value)
+    max_ts, AM = get_activity_collection_val(**dictfield, field_value_func=get_activity_max_field_value)
+    return dict(min=min_ts, max=max_ts)

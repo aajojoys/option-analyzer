@@ -96,7 +96,6 @@ class ActivityMongodb(ConnMongodb):
         
     def __filter(self, start_ts, end_ts, symbol, contract_symbol):
         query_field = {}
-        print(start_ts, end_ts, symbol, contract_symbol)
         is_contract = bool(contract_symbol)
         selected_symbol = contract_symbol if is_contract else symbol
         selected_colname_symbol = COLNAME_CSYMBOL if is_contract else COLNAME_SYMBOL
