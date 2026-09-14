@@ -1,5 +1,9 @@
-from asset_info.model_utils import assetpair_get_isactive_symbolpairs
+from asset_info.model_utils import assetpair_get_isactive_symbolpairs, assetpair_get_obj_symbol
 from data_collection.model_utils import databaseinfo_get_obj_name
+
+def assetinfoapi_get_obj_symbol(db_name, symbol):
+    database_info = databaseinfo_get_obj_name(db_name)
+    return assetpair_get_obj_symbol(database_info, symbol)
 
 def assetinfoapi_get_active_symbolpairs(db_name, isActive=True):
     """
