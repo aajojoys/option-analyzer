@@ -2,6 +2,9 @@ from utility.model_utils import *
 from data_collection.models import *
 
 ''' Model BaseField '''
+def basefield_get_obj_dictfield(dictfield):
+    return model_get_obj(BaseField, {})
+
 def basefield_get_objs_dictfield(dictfield, objs=None):
     return model_get_filter_objs(dictfield, objs=objs, Model=BaseField)
 
@@ -58,6 +61,10 @@ def databaseinfo_get_basefield_objs_dbname(db_name, basefield_dictfield={}):
     if not basefield_objs: return []
     if basefield_dictfield: basefield_objs = model_get_filter_objs(basefield_dictfield, objs=basefield_objs, Model=BaseField)
     return basefield_objs
+
+def databaseinfo_get_basefield_dict_dbname(db_name, key="symbol", val="input_name"):
+    objs = databaseinfo_get_basefield_objs_dbname(db_name)
+    return { getattr(obj, key): getattr(obj, val) for obj in objs }
 
 def databaseinfo_get_basefield_fieldvalues_dbname(db_name, field_name):
     """
