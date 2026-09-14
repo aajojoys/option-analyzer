@@ -1,6 +1,7 @@
-from data_collection.enums import ACTIVITY_INTERVAL_1H_STR
+from data_collection.enums import ACTIVITY_INTERVAL_1H_STR, COLNAME_OPENTIME, DBNAME_BINANCEOPTION
 from data_collection.model_utils import *
 from data_collection.mongod_utils import mongod_get_option_res
+from data_collection.mongod_utils.model_utils import mongod_get_option_minmax_field
 from utility.general import res_js_to_py_dict
 
 def datacollectionapi_databaseinfo_all_names():
@@ -50,6 +51,8 @@ def datacollectionapi_mongod_option_res(res_dict):
     endts_val = res_dict.get('end_ts')
     if startts_val: res_dict['start_ts'] = int(startts_val)
     if endts_val: res_dict['end_ts'] = int(endts_val)
-    print(res_dict)
     res = mongod_get_option_res(db_name, **res_dict)
     return list(res)
+
+def datacollectionapi_mongod_option_minmax_opentime():
+    return mongod_get_option_minmax_field(DBNAME_BINANCEOPTION, COLNAME_OPENTIME)
