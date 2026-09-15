@@ -1,0 +1,7 @@
+from pricing.pmodels.black_scholes import *
+
+PRICINGMODEL_BLACKSCHOLES = "black-scholes"
+PRICINGMODEL_NAMES = [PRICINGMODEL_BLACKSCHOLES]
+PRICINGMODEL_NAMEFUNC_DICT = {
+    PRICINGMODEL_BLACKSCHOLES: blackscholes_price,
+}
