@@ -5,12 +5,20 @@ from django.utils.timezone import is_naive, make_naive, is_aware, make_aware
 
 from urllib.parse import urljoin
 from datetime import datetime, timedelta
-import pytz, os, json, asyncio
 import pandas as pd
 from json import JSONEncoder
 from asgiref import sync
 from collections import defaultdict, deque
-import requests, os, sys, csv, zipfile
+import requests, os, sys, csv, zipfile, math, pytz, os, json, asyncio, uuid, geoip2.database
+from django.conf import settings
+
+IPAPI_URL = "https://ipapi.co"
+IPWHOIS_URL = "https://ipwho.is"
+WIREGUARD_IP = "10.100.0.1"
+LOCALHOST_IP = "127.0.0.1"
+GEOLITE2_CITY_PATH = "others/GeoLite2-City.mmdb"
+
+reader = geoip2.database.Reader(f"{settings.BASE_DIR}/{GEOLITE2_CITY_PATH}")
 
 """
 Solution to Pandas memory leak issue
@@ -25,10 +33,10 @@ INTERVAL_1M_STR = "1m"
 INTERVAL_5M_STR = "5m"
 INTERVAL_1H_STR = "1h"
 INTERVAL_1D_STR = "1d"
-PERIOD_STR_1D = '1440T'
-PERIOD_STR_1M = '1T'
-PERIOD_STR_5M = '5T'
-PERIOD_STR_1H = '60T'
+PERIOD_STR_1D = '1440min'
+PERIOD_STR_1M = '1min'
+PERIOD_STR_5M = '5min'
+PERIOD_STR_1H = '60min'
 PERIOD_INT_1M = 1
 PERIOD_INT_5M = 5
 PERIOD_INT_1H = 60
@@ -737,3 +745,46 @@ def append_to_log(file_path, line):
     with open(file_path, "a") as f:
         f.writelines(line)
         f.close
+
+def dataframe_to_json(df: pd.DataFrame, index: bool) -> str:
+    return df.to_json(orient="columns") if index else json.dumps(df.to_dict(orient="list"))
+
+def round_sig_step(x):
+    if x == 0:
+        return 0
+
+    magnitude = math.floor(math.log10(abs(x)))
+    decimals = -(magnitude - 1)
+
+    return round(x, decimals)
+
+def generate_uuid(n=16):
+    return f"{uuid.uuid4().hex[:n]}"
+
+def get_client_ip(request):
+    # if using cloudflare challenge
+    cf_ip = request.META.get("HTTP_CF_CONNECTING_IP")
+
+    if cf_ip: return cf_ip
+
+    # no cloudflare routing
+    xff = request.META.get("HTTP_X_FORWARDED_FOR")
+
+    if xff: return xff.split(",")[0].strip()
+
+    return request.META.get("REMOTE_ADDR")
+
+def get_ip_info(ip_addr):
+    res = requests.get(f"{IPAPI_URL}/{ip_addr}/json/")
+    if res.status_code == requests.codes.ok:
+        return { "success": True, **res.json() }
+    else:
+        res = requests.get(f"{IPWHOIS_URL}/{ip_addr}")
+        if res.status_code == requests.codes.ok:
+            return { "success": True, **res.json() }
+        else:
+            response = reader.city(ip_addr)
+        return dict(ip=ip_addr, country=response.country.name, city=response.city.name, latitude=response.location.latitude, longitude=response.location.longitude, success=False)
+
+def is_localhost(ip_addr):
+    return ip_addr in [LOCALHOST_IP, WIREGUARD_IP]
