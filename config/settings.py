@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     # third party app
     'asset_info',
     'data_collection',
+    'option_chain',
 ]
 
 MIDDLEWARE = [
