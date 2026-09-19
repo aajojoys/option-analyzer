@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'asset_info',
     'data_collection',
     'option_chain',
+    'contract_details',
 ]
 
 MIDDLEWARE = [
