@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'data_collection',
     'option_chain',
     'contract_details',
+    'volatility',
 ]
 
 MIDDLEWARE = [
