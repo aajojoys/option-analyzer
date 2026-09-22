@@ -24,4 +24,5 @@ urlpatterns = [
     path('chain/', include(('option_chain.urls', 'option_chain'), namespace="chain")),
     path('contract/', include('contract_details.urls')),
     path('volatility/', include('volatility.urls')),
+    path('scenario/', include('scenario.urls')),
 ]
