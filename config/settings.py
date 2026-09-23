@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'contract_details',
     'volatility',
     'scenario',
+    'visitor',
 ]
 
 MIDDLEWARE = [
