@@ -1,0 +1,54 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block title %}
+Contract Details
+{% endblock title %}
+
+{% block nav-title %}
+<span data-target="menu" data-key="contract-details" class="nav-top-title">
+    Contract Details: {{ selected_contractsymbol }}
+</span>
+{% endblock nav-title %}
+
+{% block nav-extra %}
+<div class="nav-item">
+    <select id="nav-select-optiontype" title="Option Type" data-target="session-info" data-key="option_type">
+    {% for key, val in optiontype_dict.items %}
+        <option value={{ key }}
+        {% if key == selected_optiontype %}
+            selected
+        {% endif %}
+        >{{ val }}</option>
+    {% endfor %}
+    </select>
+</div>
+<div class="nav-item">
+    <select id="nav-select-expiry" title="Contract Expiry Date (UTC)" data-target="session-info" data-key="expiry">
+    {% for expiry_int, expiry_dt in expiry_tups %}
+        <option value={{ expiry_int }}
+        {% if expiry_int == selected_expiry %}
+            selected
+        {% endif %}
+        >{{ expiry_dt|date:'Y-m-d' }} (UTC)</option>
+    {% endfor %}
+    </select>
+</div>
+<div class="nav-item">
+    <select id="nav-select-contract" title="Option Contract" data-target="session-info" data-key="contract_symbol">
+    {% for contract in contractsymbol_list %}
+        <option value={{ contract }}
+        {% if contract == selected_contractsymbol %}
+            selected
+        {% endif %}
+        >{{ contract }}</option>
+    {% endfor %}
+    </select>
+</div>
+{% endblock nav-extra %}
+
+{% block container %}
+{% endblock container %}
+
+{% block scripts %}
+{% endblock scripts %}

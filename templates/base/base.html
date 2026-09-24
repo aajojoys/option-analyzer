@@ -1,0 +1,124 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" chartset="utf-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="https://golden-layout.com/files/latest/js/goldenlayout.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://golden-layout.com/files/latest/css/goldenlayout-base.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-3.6.0.min.js" charset="utf-8"></script>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'dist/app.min.css' %}">
+    <script>var CSRF_TOKEN = '{{ csrf_token }}';</script>
+    <script type="module" src="{% static 'js/app.js' %}" defer></script>
+    <title>{% block title %}{% endblock title %}</title>
+  </head>
+  <body>
+    <div id="sidebar" class="sidebar">
+      <div id="sidebar-menu" class="sidebar-menu">
+        <div data-name="profile" id="sidebar-a-profile" class="sidebar-menu-item">
+          <a data-name="profile" class="sidebar-link" href="https://jonak.dev" target="_blank" rel="noopener">
+            <img data-name="profile" class="icon" title="Home Profile" src="{% static 'img/icons/profile.webp' %}">
+            <span data-name="option-chain" class="sidebar-title" title="Go to Home Profile">Home Profile</span>
+          </a>
+        </div>
+        <div data-name="option-chain" id="sidebar-a-optionchain" class="sidebar-menu-item">
+          <a data-name="option-chain" class="sidebar-link
+          {% if menu_name == "option-chain" %}
+          active
+          {% endif %}
+          " href="{% url 'chain:option_chain' %}">
+            <img data-name="option-chain" class="icon" title="Option Chain" src="{% static 'img/icons/option_chain.png' %}">
+            <span data-name="option-chain" class="sidebar-title" title="Option Chain">Option Chain</span>
+          </a>
+        </div>
+        <div data-name="contract-details" id="sidebar-a-contractdetails" class="sidebar-menu-item">
+          <a data-name="contract-details" class="sidebar-link
+          {% if menu_name == "contract-details" %}
+          active
+          {% endif %}
+          " href="{% url 'contract_details' %}">
+            <img data-name="contract-details" class="icon" title="Contract Details" src="{% static 'img/icons/contract_details.png' %}">
+            <span data-name="contract-details" class="sidebar-title" title="Contract Details">Contract Details</span>
+          </a>
+        </div>
+        <div data-name="volatility" id="sidebar-a-volatility" class="sidebar-menu-item">
+          <a data-name="volatility" class="sidebar-link
+          {% if menu_name == "volatility" %}
+          active
+          {% endif %}
+          " href="{% url 'volatility' %}">
+            <img data-name="volatility" class="icon" title="Volatility" src="{% static 'img/icons/volatility.png' %}">
+            <span data-name="volatility" class="sidebar-title" title="Volatility">Volatility</span>
+          </a>
+        </div>
+        <div data-name="scenario-analysis" id="sidebar-a-scenarioanalysis" class="sidebar-menu-item">
+          <a data-name="scenario-analysis" class="sidebar-link
+          {% if menu_name == "scenario-analysis" %}
+          active
+          {% endif %}
+          " href="{% url 'scenario_analysis' %}">
+            <img data-name="scenario-analysis" class="icon" title="Scenario Analysis" src="{% static 'img/icons/scenario_analysis.png' %}">
+            <span data-name="scenario-analysis" class="sidebar-title" title="Scenario Analysis">Scenario Analysis</span>
+          </a>
+        </div>
+        <div class="sidebar-menu-item-end">
+          <label class="switch-toggle" title="Theme toggle">
+            <input id="theme-toggle" type="checkbox">
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="nav-header sticky-top">
+        <div class="nav-top nav-header-item">
+          <div class="nav-top-left">
+            <div class="nav-item">
+              <input type="hidden" id="nav-input-sessionid" data-sessionid="{{ session_id }}">
+              {% block nav-title%}{% endblock nav-title %}
+            </div>
+          </div>
+          <div class="nav-top-right">
+              <div class="nav-item">
+                <select id="nav-select-symbol" title="Underlying Symbol" data-key="symbol" data-target="session-info">
+                {% for symbol in active_symbols %}
+                    <option value={{ symbol }}
+                    {% if symbol == selected_symbol %}
+                    selected
+                    {% endif %}
+                    >{{ symbol }}
+                    </option>
+                {% endfor %}
+                </select>
+              </div>
+              {% block nav-extra %}
+              {% endblock nav-extra %}
+              <div class="nav-item">
+                <input id="nav-input-datetime" title="Timestamp in UTC" type="datetime-local" data-key="timestamp" data-target="session-info" step="3600", value="{{ timestamp|date:'Y-m-d\\TH:i' }}">
+              </div>
+              <div class="nav-item">
+                <input id="nav-apply" type="button" value="Apply" data-target="session-info" title="Apply Current Setup" class="submit-input-button">
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="main">
+        {% block container %}
+        {% endblock container %}
+      </div>
+      <div id="loader-modal" class="modal overlay">
+        <div class="modal-loader">
+          <img class="loader" src="{% static 'img/icons/loader.gif' %}">
+        </div>
+      </div>
+    </div>
+    {% block scripts %}
+    {% endblock scripts %}
+  </body>
+</html>
