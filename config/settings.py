@@ -21,6 +21,8 @@ env.read_env()
 DJANGO_SECRETKEY = env.str("DJANGO_SECRETKEY")
 MONGOD_SECRETKEY = env.str("MONGOD_SECRETKEY")
 MONGOD_USERNAME = env.str("MONGOD_USERNAME")
+REDIS_KEYPREFIX = env.str("REDIS_KEYPREFIX")
+REDIS_SECRETKEY = env.str("REDIS_SECRETKEY")
 
 MONGOD_URI = f"mongodb://{MONGOD_USERNAME}:{MONGOD_SECRETKEY}@localhost:27017/"
 MONGOD_CLIENT = MongoClient(MONGOD_URI)
@@ -38,7 +40,7 @@ SECRET_KEY = DJANGO_SECRETKEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost"]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -101,6 +103,17 @@ DATABASES = {
     }
 }
 
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": f"redis://:{REDIS_SECRETKEY}@127.0.0.1:6379/0",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "COMPRESSOR": "django_redis.compressors.lz4.Lz4Compressor",
+        },
+        "KEY_PREFIX": REDIS_KEYPREFIX,
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -137,8 +150,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [str(BASE_DIR.joinpath('static'))]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MEDIA_URL = '/media/'
+# for ip collection
+# USE_X_FORWARDED_HOST = True
+# SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
