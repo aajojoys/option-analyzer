@@ -1,0 +1,143 @@
+.lm_goldenlayout{
+	background: var(--background);
+}
+.lm_content{
+	background: var(--background);
+    overflow: auto !important;
+}
+.lm_dragProxy .lm_content{
+	box-shadow:2px 2px 4px rgba(0,0,0,0.9)
+}
+.lm_dropTargetIndicator{
+	box-shadow:inset 0 0 30px var(--background);
+	outline:1px dashed var(--border-primary);
+	transition:all 200ms ease
+}
+.lm_dropTargetIndicator .lm_inner{
+	background: var(--background);
+	opacity:.2
+}
+.lm_splitter{
+	background: var(--border-thirdly);
+	opacity:1;
+}
+
+.lm_splitter:hover,.lm_splitter.lm_dragging{
+	background: var(--theme-color-main);
+	opacity:.2;
+}
+.lm_header{
+    height: 25px !important;
+    user-select:none;
+    display: flex;
+    justify-content: space-between;
+}
+.lm_title{
+    font-size: 13px;
+    color: var(--icon-color);
+    font-weight: 500;
+}
+.lm_header.lm_selectable{
+	cursor:pointer
+}
+.lm_header .lm_tab{
+	font-family:Arial,sans-serif;
+	font-size:15px;
+	color: var(--text);
+	background: var(--background);
+	box-shadow:2px -2px 2px rgba(0,0,0,0.3);
+	margin-right:2px;
+	padding-bottom:2px;
+	padding-top:2px
+}
+.lm_header .lm_tab .lm_close_tab{
+	width:11px;
+	height:11px;
+	background-image:url("/static/img/icons/close.png");
+	background-position:center center;
+	background-repeat:no-repeat;
+	top:4px;
+	right:6px;
+	opacity:.4
+}
+.lm_header .lm_tab .lm_close_tab:hover{
+	opacity:1
+}
+.lm_header .lm_tab.lm_active{
+	border-bottom:none;
+	box-shadow:0 -2px 2px var(--background);
+	padding-bottom:3px
+}
+.lm_header .lm_tab.lm_active .lm_close_tab{
+	opacity:1
+}
+.lm_dragProxy.lm_bottom .lm_header .lm_tab,.lm_stack.lm_bottom .lm_header .lm_tab{
+	box-shadow:2px 2px 2px rgba(0,0,0,0.3)
+}
+.lm_dragProxy.lm_bottom .lm_header .lm_tab.lm_active,.lm_stack.lm_bottom .lm_header .lm_tab.lm_active{
+	box-shadow:0 2px 2px var(--background)
+}
+.lm_selected .lm_header{
+	background-color: var(--theme-color-main);
+}
+.lm_tab:hover,.lm_tab.lm_active{
+	box-shadow:0 2px 2px var(--background);
+	color: var(--text);
+}
+.lm_header .lm_controls .lm_tabdropdown:before{
+	color: var(--text);
+}
+.lm_controls>li{
+	position:relative;
+	background-position:center center;
+	background-repeat:no-repeat;
+	opacity:.4;
+	transition:opacity 300ms ease;
+    margin: 5px;
+    width: 15px !important;
+    height: 15px !important;
+}
+.lm_controls>li:hover{
+	opacity:1
+}
+.lm_controls .lm_popout{
+	background-image:url("/static/img/icons/popup.png");
+}
+.lm_controls .lm_maximise{
+	background-image:url("/static/img/icons/expand.png");
+}
+.lm_controls .lm_close{
+	background-image:url("/static/img/icons/close.png");
+}
+.lm_maximised .lm_header{
+	background-color: var(--background);
+}
+.lm_maximised .lm_controls .lm_maximise{
+	background-image:url("/static/img/icons/minimize.png");
+}
+.lm_transition_indicator{
+	background-color: var(--background);
+	border:1px dashed var(--border-primary);
+}
+.lm_popin{
+	cursor:pointer
+}
+.lm_popin .lm_bg{
+	background: var(--background);
+	opacity:.3
+}
+.lm_popin .lm_icon{
+	background-image:url("/static/img/icons/popup.png");
+	background-position:center center;
+	background-repeat:no-repeat;
+	border-left:1px solid var(--border-primary);
+	border-top:1px solid var(--border-primary);
+	opacity:.7
+}
+.lm_popin:hover .lm_icon{
+	opacity:1
+}
+.lm_stack{
+    padding-bottom: 5px; /* give space to horizontal scrollbar (to not overlap with goldenlayout drag resize) */
+    box-sizing: border-box;
+}

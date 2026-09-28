@@ -1,0 +1,9 @@
+.ag-table {
+    --ag-background-color: var(--background);
+    --ag-foreground-color: var(--text);
+    --ag-header-background-color: var(--background);
+    --ag-header-text-color: var(--text);
+    --ag-border-color: var(--border-thirdly);
+    --ag-row-hover-color: var(--theme-secondary);
+    /* --ag-selected-row-background-color: var(--selected); */
+}
