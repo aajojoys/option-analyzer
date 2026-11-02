@@ -1,0 +1,127 @@
+.hide {
+    display: none !important;
+}
+
+.show {
+    display: block !important;
+}
+
+/* modal */
+.modal {
+    text-align: center;
+    display: none;
+    position: fixed;
+    z-index: 50;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* previously auto */
+    background-color: rgb(0,0,0, 0.1);
+}
+
+.no-pointer-events {
+    pointer-events: none;
+}
+
+/* loader */
+/* tooltip */
+.tippy-box[data-theme~='tooltip-theme'] {
+    background-color: var(--text);
+    color: var(--background);
+}
+
+.tippy-box[data-theme~='tooltip-theme'][data-placement^='bottom'] > .tippy-arrow::before {
+    border-bottom-color: var(--text);
+}
+
+.tippy-box[data-theme~='dropdownmenu-theme'] {
+    background-color: var(--menu);
+    color: var(--text);
+}
+
+.tippy-content {
+    white-space: pre-line;
+}
+
+
+/* toggle */
+.switch-toggle {
+    position: relative;
+    display: inline-block;
+    width: 3.3846rem;
+    height: 1.8462rem;
+}
+
+.switch-toggle #theme-toggle { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--border-primary);
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 1.6923rem;
+    width: 1.6923rem;
+    left: 0.0769rem;
+    bottom: 0.0769rem;
+    background-color: var(--background);
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+#theme-toggle:checked + .slider {
+    background-color: var(--theme-color-main);
+}
+
+#theme-toggle:focus + .slider {
+    box-shadow: 0 0 0.0769rem var(--border-primary);
+}
+
+#theme-toggle:checked + .slider:before {
+    -webkit-transform: translateX(20px);
+    -ms-transform: translateX(20px);
+    transform: translateX(20px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 2.6154rem;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+    background-color: var(--theme-color-main);
+}
+
+#theme-toggle:checked + .slider.round:before {
+    background-color: var(--text);
+}
+
+.error {
+    outline: 1px solid red !important;
+}
+
+.error-warning {
+    width: 1.1538rem;
+    height: 1.1538rem;
+    font-size: 0.7692rem;
+    border-radius: 50%;
+}
+
+.cursor-not-allowed {
+    cursor: not-allowed;
+}
